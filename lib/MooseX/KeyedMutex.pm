@@ -1,11 +1,12 @@
-# $Id: /mirror/coderepos/lang/perl/MooseX-KeyedMutex/trunk/lib/MooseX/KeyedMutex.pm 65766 2008-07-15T04:27:15.147916Z daisuke  $
+# $Id: /mirror/coderepos/lang/perl/MooseX-KeyedMutex/trunk/lib/MooseX/KeyedMutex.pm 72436 2008-09-08T14:10:48.333612Z daisuke  $
 
 package MooseX::KeyedMutex;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
 use KeyedMutex;
+use Carp();
 
-our $VERSION   = '0.00001';
+our $VERSION   = '0.00002';
 our $AUTHORITY = 'cpan:DMAKI';
 
 class_type 'KeyedMutex';
@@ -49,7 +50,7 @@ sub lock {
     my $mutex = $self->mutex;
 
     if (! $mutex && $self->mutex_required) {
-        confess "No mutex object provided, and mutex_required is on";
+        Carp::confess("No mutex object provided, and mutex_required is on");
     }
     # if no mutex is available, let if ($self->lock) pass, but don't
     # provide an object.
