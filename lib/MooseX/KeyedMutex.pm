@@ -1,19 +1,19 @@
-# $Id: /mirror/coderepos/lang/perl/MooseX-KeyedMutex/trunk/lib/MooseX/KeyedMutex.pm 72436 2008-09-08T14:10:48.333612Z daisuke  $
+# $Id: /mirror/coderepos/lang/perl/MooseX-KeyedMutex/trunk/lib/MooseX/KeyedMutex.pm 86987 2008-10-01T17:11:59.535183Z daisuke  $
 
 package MooseX::KeyedMutex;
+use 5.008;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
 use KeyedMutex;
 use Carp();
 
-our $VERSION   = '0.00002';
+our $VERSION   = '0.00003';
 our $AUTHORITY = 'cpan:DMAKI';
 
-class_type 'KeyedMutex';
-subtype 'MaybeKeyedMutex'
+subtype 'MooseX::KeyedMutex::MaybeKeyedMutex'
     => as 'Maybe[KeyedMutex]';
 
-coerce 'MaybeKeyedMutex'
+coerce 'MooseX::KeyedMutex::MaybeKeyedMutex'
     => from 'HashRef'
         => via {
             my $h = $_;
@@ -24,7 +24,7 @@ coerce 'MaybeKeyedMutex'
 
 has 'mutex' => (
     is => 'rw',
-    isa => 'MaybeKeyedMutex',
+    isa => 'MooseX::KeyedMutex::MaybeKeyedMutex',
     coerce => 1,
     default => sub {
         # If no keyedmutex was provided explicitly, we attempt to create one.
@@ -42,7 +42,7 @@ has 'mutex_required' => (
     default => 0
 );
 
-no Moose;
+no Moose::Role;
 
 sub lock {
     my ($self, $key) = @_;

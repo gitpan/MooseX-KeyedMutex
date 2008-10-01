@@ -12,5 +12,5 @@ test_requires('Test::More');
 test_requires('Test::Exception');
 test_requires('Test::UseAllModules');
 
-auto_include;
+auto_include_deps;
 WriteAll;
